@@ -39,13 +39,16 @@ function GrandSum() {
           {/* Pei */}
           <div className="falx w-full justify-center align-middle">
             <div className="wraper w-60 my-8 m-auto">
-              <PieChart
-                data={[
-                  { title: "Current Balance", value: Math.abs(income - expense), color: "#39790f" },
-                  { title: "Income", value: income, color: "#de29ed" },
-                  { title: "Expense", value: expense, color: "#ee114e" },
-                ]}
-              />
+              {income !== 0 && (
+                <PieChart
+                  data={[
+                    { title: "Current Balance", value: Math.abs(income - expense), color: "#39790f" },
+                    { title: "Income", value: income, color: "#de29ed" },
+                    { title: "Expense", value: expense, color: "#ee114e" },
+                  ]}
+                />
+              )}
+              {income === 0 && expense === 0 && <PieChart data={[{ title: "Empty", value: 1, color: "#e1d2e3" }]} />}
             </div>
           </div>
         </div>

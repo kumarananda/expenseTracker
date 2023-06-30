@@ -24,15 +24,15 @@ function MyTransaction() {
   // create content for userTransactions
   let content = null;
   if (isLoading) {
-    content = <div>Loading...</div>;
+    content = <div className="ml-4">Loading...</div>;
   }
   if (!isLoading && isError) {
-    content = <div>There was an error!</div>;
+    content = <div className="ml-4">There was an error!</div>;
   }
   if (!isLoading && !isError && isSuccess) {
     const transLength = trans?.userTransactions.length;
     if (transLength === 0) {
-      content = <div>Transactions list is empty!</div>;
+      content = <div className="ml-4">Transactions list is empty!</div>;
     } else if (transLength >= 0) {
       content = trans?.userTransactions.map((data, i) => <SingTrans key={i} data={data} index={i} edit={edit} setEdit={setEdit} />);
     }
