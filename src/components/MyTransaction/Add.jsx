@@ -4,13 +4,17 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useCreateTransMutation } from "../../rtk/transaction/transApi";
+import filterUse from "../../filters/filter";
+import { checkLimit } from "../../utils/check";
+import { incomeTypes } from "../../utils/data";
 
 const Add = ({ show, setShow }) => {
   const [createTrans, { isLoading, isSuccess, isError, error }] = useCreateTransMutation();
+  const { expense, income } = filterUse();
 
   const { user } = useSelector(state => state.auth);
 
-  const [input, setInput] = useState({ transType: "Expense", amount: "", expense_cat: "", income_type: "", transDate: "" });
+  const [input, setInput] = useState({ transType: "Expense", amount: 0, expense_cat: "", income_type: "", transDate: "" });
 
   const handleAddInput = e => {
     setInput(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,8 +31,18 @@ const Add = ({ show, setShow }) => {
       return toast("All fields are required");
     }
 
-    // submit data
-    createTrans({ userId: user._id, ...input })
+    if (input.transType === "Income") {
+      createTrans({ userId: user._id, ...input });
+    } else if (input.transType === "Expense") {
+      const limit = checkLimit(income, expense, input.amount);
+      if (!limit) {
+        return toast("Your Blance is Low");
+      }
+      if (limit) {
+        createTrans({ userId: user._id, ...input });
+      }
+    }
+
   };
 
   return (
@@ -69,7 +83,7 @@ const Add = ({ show, setShow }) => {
                 {/* if income */}
                 <select className="px-4 py-1 rounded h-8" onChange={handleAddInput} defaultValue={input.income_type} name="income_type">
                   <option value="">Select</option>
-                  {["Salary", "Bonus", "Overtime", "Others"].map((item, i) => {
+                  {incomeTypes.map((item, i) => {
                     return (
                       <option key={i} value={item}>
                         {item}

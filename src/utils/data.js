@@ -1,0 +1,1 @@
+export const incomeTypes = ["Salary", "Bonus", "Overtime", "Others", "Get Loan"]

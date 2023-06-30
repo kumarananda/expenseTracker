@@ -7,8 +7,12 @@ import { useSelector } from "react-redux";
 import Add from "./Add";
 import { useGetUsrsTransQuery } from "../../rtk/transaction/transApi";
 import SingTrans from "./SingTrans";
+import filterUse from "../../filters/filter";
+import { incomeTypes } from "../../utils/data";
+import Filters from "./Filters";
 
 function MyTransaction() {
+  const {} = filterUse();
   const { user } = useSelector(state => state.auth);
   const { data: trans, isLoading, isError, isSuccess } = useGetUsrsTransQuery({ userId: user._id });
 
@@ -37,32 +41,26 @@ function MyTransaction() {
   return (
     <>
       <div className="w-full bg-white shadow-lg rounded-2xl dark:bg-gray-700">
+        <Filters />
+
         <div className="flex justify-between items-center border-b-2">
           <p className="p-4 font-bold text-black text-md dark:text-white">
             Total
+            <span className="ml-2 text-sm text-gray-500 dark:text-gray-300 ">{trans?.userTransactions?.length} Transactions</span>
+          </p>
+          <p className="p-4 font-bold text-black text-md dark:text-white">
+            Showing
             <span className="ml-2 text-sm text-gray-500 dark:text-gray-300 ">___ Transactions</span>
           </p>
-          <span className="p-4 font-bold text-black text-md dark:text-white">
-            Filter By
-            <span className="ml-2 text-sm text-gray-500 dark:text-gray-300 ">
-              <span className="">Type </span>
-              <span>
-                <select className="bg-transparent border p-1" name="" id="">
-                  <option value="ALL">All</option>
-                  <option value="ALL">Income</option>
-                  <option value="ALL">Expense</option>
-                </select>
-              </span>
-            </span>
-          </span>
-          <p className="p-4 font-bold text-black text-md dark:text-white">
+
+          <p className="p-2 font-bold text-black text-md dark:text-white">
             {!add && (
               <button onClick={() => setAdd(true)} className="px-5  h-8 font-bold bg-blue-500 rounded overflow-hidden text-sm text-white">
                 Add new
               </button>
             )}
             {add && (
-              <button onClick={() => setAdd(false)} className="px-5 w-50 h-8 font-bold bg-red-300 rounded overflow-hidden text-md text-white">
+              <button onClick={() => setAdd(false)} className="px-5 w-50 h-8 font-bold bg-red-300 rounded overflow-hidden text-sm text-white">
                 Cancel Add
               </button>
             )}

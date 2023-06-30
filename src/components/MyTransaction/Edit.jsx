@@ -4,11 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useCreateTransMutation, useEditTransMutation } from "../../rtk/transaction/transApi";
+import { checkLimit } from "../../utils/check";
+import filterUse from "../../filters/filter";
+import { incomeTypes } from "../../utils/data";
 
 const Edit = ({ show, setShow, data }) => {
   const [editTrans, { isLoading, isSuccess, isError, error }] = useEditTransMutation();
 
   const { user } = useSelector(state => state.auth);
+  const { expense, income } = filterUse();
 
   const [input, setInput] = useState({
     transType: data.transType,
@@ -31,6 +35,18 @@ const Edit = ({ show, setShow, data }) => {
     }
     if (input.transType === "Income" && !input.income_type) {
       return toast("All fields are required");
+    }
+
+    if (input.transType === "Income") {
+      editTrans({ ...data, ...input });
+    } else if (input.transType === "Expense") {
+      const limit = checkLimit(income, expense, input.amount);
+      if (!limit) {
+        return toast("Your Blance is Low");
+      }
+      if (limit) {
+        editTrans({ ...data, ...input });
+      }
     }
 
     // submit data
@@ -103,7 +119,7 @@ const Edit = ({ show, setShow, data }) => {
                       name="income_type"
                     >
                       <option value="">Select</option>
-                      {["Salary", "Bonus", "Overtime", "Others"].map((item, i) => {
+                      {incomeTypes.map((item, i) => {
                         return (
                           <option key={i} value={item}>
                             {item}

@@ -4,23 +4,17 @@ import React, { useEffect } from "react";
 import { useGetUsrsTransQuery } from "../../rtk/transaction/transApi";
 import { useSelector } from "react-redux";
 import { minMaxDate } from "../../utils/date";
+import { PieChart } from "react-minimal-pie-chart";
+import filterUse from "../../filters/filter";
 
 function GrandSum() {
-  const { user } = useSelector(state => state.auth);
-  const { data: trans, isSuccess } = useGetUsrsTransQuery({ userId: user._id });
-
-  const reduceIncome = (acc, curr) => (curr.transType === "Income" ? acc + Number(curr.amount) : acc);
-  const reduceExpense = (acc, curr) => (curr.transType === "Expense" ? acc + Number(curr.amount) : acc);
-  const income = trans?.userTransactions?.reduce(reduceIncome, 0);
-  const expense = trans?.userTransactions?.reduce(reduceExpense, 0);
-
-  const getMinMax = minMaxDate(trans?.userTransactions);
+  const { income, expense, getMinMax } = filterUse();
 
   return (
     <>
       <div className="mb-4">
         <div className="w-full p-4 bg-white shadow-lg rounded-2xl dark:bg-gray-700">
-          <div className="flex justify-between ">
+          <div className="flex justify-between mb-8">
             <p className=" font-bold text-black text-md dark:text-white">Grand Report</p>
             {getMinMax && (
               <>
@@ -30,20 +24,33 @@ function GrandSum() {
               </>
             )}
           </div>
-          <div className="flex justify-between ">
-            <p className=" font-bold text-black text-md dark:text-white">Total Cash</p>
-            <span className="ml-2 text-sm text-right inline-block text-gray-500 dark:text-gray-300 "> {income} </span>
+          <div className="flex justify-between bg-[#de29ed] rounded p-1 ">
+            <p className=" font-bold  text-md text-white">Total Cash</p>
+            <span className="ml-2 text-sm text-right inline-block text-white font-bold "> {income} </span>
           </div>
-          <div className="flex justify-between ">
-            <p className=" font-bold text-black text-md dark:text-white">Total Expense</p>
-            <span className="ml-2 text-sm text-right inline-block text-gray-500 dark:text-gray-300 "> {expense}</span>
+          <div className="flex justify-between bg-[#ee114e] rounded p-1 ">
+            <p className=" font-bold  text-md text-white">Total Expense</p>
+            <span className="ml-2 text-sm text-right inline-block text-white font-bold  "> {expense}</span>
           </div>
-          <div className={`flex justify-between rounded p-1 ${income - expense < 0 ? "bg-red-200" : "bg-green-200"}`}>
-            <p className=" font-bold text-black text-md dark:text-white">Current Balance</p>
-            <span className="ml-2 font-bold text-sm text-right inline-block text-gray-500 dark:text-gray-00">{income - expense}</span>
+          <div className={`flex justify-between rounded p-1 bg-[#39790f] bg-green-200`}>
+            <p className=" font-bold  text-md text-white">Current Balance</p>
+            <span className="ml-2 text-sm text-right inline-block text-white font-bold ">{income - expense}</span>
+          </div>
+          {/* Pei */}
+          <div className="falx w-full justify-center align-middle">
+            <div className="wraper w-60 my-8 m-auto">
+              <PieChart
+                data={[
+                  { title: "Current Balance", value: Math.abs(income - expense), color: "#39790f" },
+                  { title: "Income", value: income, color: "#de29ed" },
+                  { title: "Expense", value: expense, color: "#ee114e" },
+                ]}
+              />
+            </div>
           </div>
         </div>
       </div>
+
       <div className="mb-4">
         <div className="w-full p-4 bg-white shadow-lg rounded-2xl dark:bg-gray-700">
           <div className="flex items-center justify-between mb-6">
@@ -93,35 +100,6 @@ function GrandSum() {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-between mb-4 space-x-12">
-            <span className="flex items-center px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-200 rounded-md">PROGRESS</span>
-            <span className="flex items-center px-2 py-1 text-xs font-semibold text-red-400 bg-white border border-red-400 rounded-md">
-              HIGH PRIORITY
-            </span>
-          </div>
-          <div className="block m-auto">
-            <div>
-              <span className="inline-block text-sm text-gray-500 dark:text-gray-100">
-                Task done :<span className="font-bold text-gray-700 dark:text-white">25</span>
-                /50
-              </span>
-            </div>
-            <div className="w-full h-2 mt-2 bg-gray-200 rounded-full">
-              <div className="w-1/2 h-full text-xs text-center text-white bg-purple-500 rounded-full"></div>
-            </div>
-          </div>
-          <div className="flex items-center justify-start my-4 space-x-4">
-            <span className="flex items-center px-2 py-1 text-xs font-semibold text-green-500 rounded-md bg-green-50">IOS APP</span>
-            <span className="flex items-center px-2 py-1 text-xs font-semibold text-blue-500 bg-blue-100 rounded-md">UI/UX</span>
-          </div>
-          <div className="flex -space-x-2">
-            <a href="#" className="">
-              <img className="inline-block h-10 w-10 rounded-full object-cover ring-2 ring-white" src="" alt="Guy" />
-            </a>
-          </div>
-          <span className="flex items-center px-2 py-1 mt-4 text-xs font-semibold text-yellow-500 bg-yellow-100 rounded-md w-36">
-            DUE DATE : 18 JUN
-          </span>
         </div>
       </div>
     </>
