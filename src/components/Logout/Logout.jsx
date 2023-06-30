@@ -3,12 +3,14 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { userLoggedOut } from "../../rtk/auth/authSlice";
+import Cookies from "js-cookie";
 
 const Logout = ({ children }) => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(userLoggedOut());
+    Cookies.remove("accessToken");
     localStorage.clear();
   };
   return (

@@ -4,8 +4,8 @@ export default function useAuth() {
     const auth = useSelector((state) => state.auth);
 
     if (auth?.accessToken && auth?.user) {
-        return {isLoggedIn : true};
+        return {isLoggedIn : true, };
     } else {
-        return { isLoggedIn : false};
+        return { isLoggedIn : false, };
     }
 }

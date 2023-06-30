@@ -8,9 +8,16 @@ const apiSlice = createApi({
         // baseUrl : "https://expense-tracker-api-beta.vercel.app/api",
 
         // credentials: "include",
+        prepareHeaders: (headers, { getState }) => {
+            const token = getState().auth.accessToken
+            if (token) {
+              headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        },
     }),
     
-    tagTypes : [],
+    tagTypes : ["Transaction"],
     endpoints : (builder) => ({}) 
 
 })
