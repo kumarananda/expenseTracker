@@ -5,12 +5,6 @@ import { Link } from "react-router-dom";
 
 const AddTransModal = ({ setModal }) => {
   const [input, setInput] = useState({});
-  const handleInput = e => {
-    setInput(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
   return (
     <>
       <div className="flex flex-col items-center justify-center pt-4 pb-8 mx-auto ">

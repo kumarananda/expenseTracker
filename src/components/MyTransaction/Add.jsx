@@ -7,12 +7,15 @@ import { useCreateTransMutation } from "../../rtk/transaction/transApi";
 import filterUse from "../../filters/filter";
 import { checkLimit } from "../../utils/check";
 import { incomeTypes } from "../../utils/data";
+import FullScreenModal from "../ui/Modal/FullScreenModal/FullScreenModal";
+import AddExpCat from "./AddExpCat";
 
 const Add = ({ show, setShow }) => {
   const [createTrans, { isLoading, isSuccess, isError, error }] = useCreateTransMutation();
   const { expense, income } = filterUse();
 
   const { user } = useSelector(state => state.auth);
+  const [addExpCat, setAddExpCat] = useState(false);
 
   const [input, setInput] = useState({ transType: "Expense", amount: 0, expense_cat: "", income_type: "", transDate: "" });
 
@@ -42,7 +45,6 @@ const Add = ({ show, setShow }) => {
         createTrans({ userId: user._id, ...input });
       }
     }
-
   };
 
   return (
@@ -64,7 +66,12 @@ const Add = ({ show, setShow }) => {
             {/* if expense */}
             {input.transType === "Expense" && (
               <span className="ml-2">
-                <span className="block mb-1">Category</span>
+                <span className="block mb-1">
+                  Category{" "}
+                  <button onClick={() => setAddExpCat(true)} className="bg-blue-600 p-1 text-white rounded">
+                    Add New
+                  </button>
+                </span>
                 <select className="px-4 py-1 rounded h-8" onChange={handleAddInput} defaultValue={input.expense_cat} name="expense_cat">
                   <option value="">Select</option>
                   {user?.categories.map((item, i) => {
@@ -114,6 +121,9 @@ const Add = ({ show, setShow }) => {
               <input onClick={() => setShow(false)} type="button" value={"Cancel"} className="px-4  rounded h-8  border-2" />
             </span>
           </div>
+          <FullScreenModal modalOpen={addExpCat} setModalOpen={setAddExpCat} MBoxWidth={300} outCickHide={true}>
+            <AddExpCat setModalOpen={setAddExpCat} />
+          </FullScreenModal>
         </li>
       </ul>
     </>

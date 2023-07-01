@@ -19,10 +19,16 @@ const SingTrans = ({ data, index, edit, setEdit }) => {
           transType === "Expense" ? "bg-red-100" : "bg-green-100"
         }`}
       >
-        <td className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">{index + 1}</td>
+        <td className="border-b w-[55px!important] border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400">
+          {index + 1}
+        </td>
         <td className="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{transType}</td>
         <td className="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{amount}</td>
-        <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-4 text-slate-500 dark:text-slate-400">
+        <td
+          className={` ${
+            transType === "Income" && income_type === "Get Loan" ? "bg-red-200 " : ""
+          } border-slate-100 border-b dark:border-slate-700 p-4 pr-4 ${"text-slate-500"} dark:text-slate-400`}
+        >
           {transType === "Income" ? income_type : expense_cat}
         </td>
         <td className="border-b border-slate-100 dark:border-slate-700 p-4 pr-4 text-slate-500 dark:text-slate-400">{transDate}</td>

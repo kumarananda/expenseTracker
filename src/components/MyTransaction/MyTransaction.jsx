@@ -10,6 +10,7 @@ import SingTrans from "./SingTrans";
 import filterUse from "../../filters/filter";
 import { incomeTypes } from "../../utils/data";
 import Filters from "./Filters";
+import TrTd from "./TrTd";
 
 function MyTransaction() {
   const {} = filterUse();
@@ -24,15 +25,15 @@ function MyTransaction() {
   // create content for userTransactions
   let content = null;
   if (isLoading) {
-    content = <div className="ml-4">Loading...</div>;
+    content = <TrTd data={"Loading..."} />;
   }
   if (!isLoading && isError) {
-    content = <div className="ml-4">There was an error!</div>;
+    content = <TrTd data={"There was an error!"} />;
   }
   if (!isLoading && !isError && isSuccess) {
     const transLength = trans?.userTransactions.length;
     if (transLength === 0) {
-      content = <div className="ml-4">Transactions list is empty!</div>;
+      content = <TrTd data={"No transactions to show!!"} />;
     } else if (transLength >= 0) {
       content = trans?.userTransactions.map((data, i) => <SingTrans key={i} data={data} index={i} edit={edit} setEdit={setEdit} />);
     }
@@ -75,7 +76,12 @@ function MyTransaction() {
             <table className="border-collapse table-fixed w-full text-sm ">
               <thead>
                 <tr className="falx justify-between items-center">
-                  <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">Sr</th>
+                  <th
+                    style={{ width: "55px!importent" }}
+                    className="border-b w-[55px!important] dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left"
+                  >
+                    Sr
+                  </th>
                   <th className="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
                     Tranaction Type
                   </th>

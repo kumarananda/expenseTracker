@@ -2,7 +2,7 @@
 import  apiSlice  from "../api/apiSlice";
 
 import swal from 'sweetalert';
-import { userLoggedIn } from "./authSlice";
+import { userExpenseUpdate, userLoggedIn } from "./authSlice";
 import Cookies from "js-cookie";
 
 export const authApi = apiSlice.injectEndpoints({
@@ -13,12 +13,13 @@ export const authApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+            providesTags: ["User"],
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
 
-                    console.log(result.data.accessToken);
-
+                    // console.log(result.data.accessToken);
+                    
                     if(result.data?.user){
 
                         Cookies.set("accessToken", result.data.accessToken)
@@ -51,13 +52,12 @@ export const authApi = apiSlice.injectEndpoints({
 
         // Login 
         login: builder.mutation({
-            // {role, data}
             query: (data) => ({
                 url: "/user/login",
                 method: "POST",
                 body: data,
             }),
-
+            providesTags: ["User"],
             async onQueryStarted(arg, { queryFulfilled, dispatch }) {
                 try {
                     const result = await queryFulfilled;
@@ -93,7 +93,50 @@ export const authApi = apiSlice.injectEndpoints({
                 }
             },
         }),
+        updateExpCat : builder.mutation({
+            query: (data) => ({
+                url: `/user/cate-update/${data.id}`,
+                method : "PATCH",
+                body: {category: data.category}
+            }),
+            // invalidatesTags : ['User'],
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                try {
+                    const result = await queryFulfilled;
+
+                    // console.log(result.data.accessToken);
+                    
+                    if(result.data?.user){
+
+                        Cookies.set("accessToken", result.data.accessToken)
+
+                        localStorage.setItem(
+                            "auth",
+                            JSON.stringify({
+                                accessToken: result.data.accessToken,
+                                user: result.data.user,
+                            })
+                        );
+    
+                        dispatch(
+                            userLoggedIn({
+                                accessToken: result.data.accessToken,
+                                user: result.data.user,
+                            })
+                        );
+
+                    }else {
+                        swal("Error!", result.data.error, "error");
+                    }
+
+                    
+                } catch (err) {
+                    // do nothing
+                }
+            },
+        }),
+        
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useUpdateExpCatMutation } = authApi;

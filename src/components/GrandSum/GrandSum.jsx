@@ -32,7 +32,7 @@ function GrandSum() {
             <p className=" font-bold  text-md text-white">Total Expense</p>
             <span className="ml-2 text-sm text-right inline-block text-white font-bold  "> {expense}</span>
           </div>
-          <div className={`flex justify-between rounded p-1 bg-[#39790f] bg-green-200`}>
+          <div className={`flex justify-between rounded p-1  ${income - expense < 0 ? "" : "bg-[#39790f]"}`}>
             <p className=" font-bold  text-md text-white">Current Balance</p>
             <span className="ml-2 text-sm text-right inline-block text-white font-bold ">{income - expense}</span>
           </div>

@@ -17,7 +17,7 @@ const apiSlice = createApi({
         },
     }),
     
-    tagTypes : ["Transaction"],
+    tagTypes : ["Transaction", "User"],
     endpoints : (builder) => ({}) 
 
 })
