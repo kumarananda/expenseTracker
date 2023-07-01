@@ -24,11 +24,8 @@ function dynamicFilterDate() {
       }
     }
   })
-//   data.series = data.series.filter((item: any) => {
-//     item.date.getTime() >= fromDate.getTime() &&
-//     item.date.getTime() <= toDate.getTime();
-// });
-    // expense_cat income_type
+
+
   const filteredTransW_Date = trans?.userTransactions.filter(filterWithDate) || []
 
 
