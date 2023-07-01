@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useCreateTransMutation } from "../../rtk/transaction/transApi";
@@ -17,7 +17,7 @@ const Add = ({ show, setShow }) => {
   const { user } = useSelector(state => state.auth);
   const [addExpCat, setAddExpCat] = useState(false);
 
-  const [input, setInput] = useState({ transType: "Expense", amount: 0, expense_cat: "", income_type: "", transDate: "" });
+  const [input, setInput] = useState({ transType: "Expense", amount: "", expense_cat: "", income_type: "", transDate: "" });
 
   const handleAddInput = e => {
     setInput(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -46,6 +46,11 @@ const Add = ({ show, setShow }) => {
       }
     }
   };
+  useEffect(() => {
+    if (isSuccess) {
+      setShow(false);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -114,11 +119,11 @@ const Add = ({ show, setShow }) => {
           <div className="mr-4">
             <span className="ml-2">
               {/* <span className="block mb-1">Date</span> */}
-              <input onClick={handleAddTrans} type="button" value={"Add"} className="px-4  rounded h-8  border-2" />
+              <input onClick={handleAddTrans} type="button" value={"Add"} className="px-4 bg-blue-600  text-white  rounded h-8  border-2" />
             </span>
             <span className="ml-2">
               {/* <span className="block mb-1">Date</span> */}
-              <input onClick={() => setShow(false)} type="button" value={"Cancel"} className="px-4  rounded h-8  border-2" />
+              <input onClick={() => setShow(false)} type="button" value={"Cancel"} className="px-4 bg-red-500 text-white   rounded h-8  border-2" />
             </span>
           </div>
           <FullScreenModal modalOpen={addExpCat} setModalOpen={setAddExpCat} MBoxWidth={300} outCickHide={true}>

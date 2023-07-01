@@ -7,10 +7,10 @@ import { useGetUsrsTransQuery } from "../../rtk/transaction/transApi";
 import SingTrans from "./SingTrans";
 import Filters from "./Filters";
 import TrTd from "./TrTd";
-import dynamicFilter from "../../filters/dynamicFilterCat";
+import dynamicFilterDate from "../../filters/dynamicFilterDate";
 
-function MyTransaction() {
-  const { filteredTrans } = dynamicFilter();
+function TransactionDate() {
+  const { filteredTrans } = dynamicFilterDate();
   const { user } = useSelector(state => state.auth);
   const { data: trans, isLoading, isError, isSuccess } = useGetUsrsTransQuery({ userId: user._id });
 
@@ -38,7 +38,7 @@ function MyTransaction() {
   return (
     <>
       <div className="w-full bg-white shadow-lg rounded-2xl dark:bg-gray-700">
-        <Filters type="category" />
+        <Filters type="date" />
 
         <div className="flex justify-between items-center border-b-2">
           <p className="p-4 font-bold text-black text-md dark:text-white">
@@ -102,4 +102,4 @@ function MyTransaction() {
   );
 }
 
-export default MyTransaction;
+export default TransactionDate;

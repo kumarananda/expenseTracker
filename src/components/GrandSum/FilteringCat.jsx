@@ -1,21 +1,18 @@
 /** @format */
 
-import React, { useEffect } from "react";
-import { useGetUsrsTransQuery } from "../../rtk/transaction/transApi";
-import { useSelector } from "react-redux";
-import { minMaxDate } from "../../utils/date";
+import React from "react";
 import { PieChart } from "react-minimal-pie-chart";
-import filterUse from "../../filters/filter";
+import dynamicFilterCat from "../../filters/dynamicFilterCat";
 
-function GrandSum() {
-  const { income, expense, getMinMax } = filterUse();
+function FilteringCat() {
+  const { income, expense, getMinMax } = dynamicFilterCat();
 
   return (
     <>
       <div className="mb-4">
         <div className="w-full p-4 bg-white shadow-lg rounded-2xl dark:bg-gray-700">
           <div className="flex justify-between mb-8">
-            <p className=" font-bold text-black text-md dark:text-white">Grand Report</p>
+            <p className=" font-bold text-black text-md dark:text-white">Filtered by category</p>
             {getMinMax && (
               <>
                 <span className="ml-2 text-sm text-right inline-block text-gray-500 dark:text-gray-300 ">
@@ -42,13 +39,13 @@ function GrandSum() {
               {income !== 0 && (
                 <PieChart
                   data={[
-                    { title: "Current Balance", value: Math.abs(income - expense), color: "#39790f" },
+                    { title: "Current Balance", value: Math.abs(income - expense) || 1, color: "#39790f" },
                     { title: "Income", value: income, color: "#de29ed" },
                     { title: "Expense", value: expense, color: "#ee114e" },
                   ]}
                 />
               )}
-              {income === 0 && expense === 0 && <PieChart data={[{ title: "Empty", value: 1, color: "#e1d2e3" }]} />}
+              {income === 0 && <PieChart data={[{ title: "Empty", value: 1, color: "#e1d2e3" }]} />}
             </div>
           </div>
         </div>
@@ -57,4 +54,4 @@ function GrandSum() {
   );
 }
 
-export default GrandSum;
+export default FilteringCat;

@@ -9,6 +9,6 @@ export default function PrivateRoute({ children }) {
   if (isLoggedIn) {
     return children;
   } else {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={"/"} />;
   }
 }

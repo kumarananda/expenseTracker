@@ -35,15 +35,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeRouting />} />
         <Route
-          path="/categories"
-          element={
-            <PrivateRoute>
-              <Categories />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
           path="/register"
           element={
             <PublicRoute>

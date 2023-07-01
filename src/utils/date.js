@@ -17,3 +17,26 @@ export const minMaxDate = array => {
     return null;
   }
 };
+
+export const TodayToYearMonthDay = () => {
+  const date = new Date()
+  let day = date.getDate()
+  let month = date.getMonth() +1
+  let year = date.getFullYear()
+  let monthW_0 =  month < 10 ? "0"+ month : month
+  let dayW_0 =  day < 10 ? "0"+ day : day
+
+  return  year + "-" + monthW_0 + "-" + dayW_0
+}
+
+export const yearMonthDate = (data) => {
+  const date = new Date(data)
+  let day = date.getDate()
+  let month = date.getMonth() +1
+  let year = date.getFullYear()
+  let monthW_0 =  month < 10 ? "0"+ month : month
+  let dayW_0 =  day < 10 ? "0"+ day : day
+
+  return  year + "-" + monthW_0 + "-" + dayW_0
+
+}
