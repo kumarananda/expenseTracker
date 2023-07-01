@@ -17,7 +17,7 @@ const Add = ({ show, setShow }) => {
   const { user } = useSelector(state => state.auth);
   const [addExpCat, setAddExpCat] = useState(false);
 
-  const [input, setInput] = useState({ transType: "Expense", amount: "", expense_cat: "", income_type: "", transDate: "" });
+  const [input, setInput] = useState({ transType: "Income", amount: "", expense_cat: "", income_type: "", transDate: "" });
 
   const handleAddInput = e => {
     setInput(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -60,8 +60,8 @@ const Add = ({ show, setShow }) => {
             <span className="ml-4">
               <span className="block mb-1">Transaction Type</span>
               <select className="px-4 py-1 rounded h-8" onChange={handleAddInput} name="transType" value={input.transType}>
-                <option value="Expense">Expense</option>
                 <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
               </select>
             </span>
             <span className="ml-2">
